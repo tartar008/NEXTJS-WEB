@@ -13,6 +13,7 @@ import Image_certificate_CooperativeEducation from '../(assets)/Certificate/Prep
 import Image_certificate_Microsoft_1 from '../(assets)/Certificate/Microsoft Learn [1].jpg'
 import Image_certificate_Microsoft_2 from '../(assets)/Certificate/Microsoft Learn [2].jpg'
 import Image_certificate_Microsoft_3 from '../(assets)/Certificate/Microsoft Learn [3].jpg'
+import Cloud_certificate from '../(assets)/Certificate/Cloud_Certificate_cognitiveclass.jpg'
 
 
 
@@ -146,7 +147,7 @@ const page = () => {
                     <div className="grid md:grid-cols-2 gap-6">
 
                         {projects.map(project => (
-                            <div className="bg-gray-50 p-6 rounded-xl shadow hover:shadow-md transition">
+                            <div key={project.slug} className="bg-gray-50 p-6 rounded-xl shadow hover:shadow-md transition">
                                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                                 <p className="text-gray-700 mb-3">
                                     {project.description}
@@ -163,31 +164,58 @@ const page = () => {
                 </div>
             </section>
 
-            {/* experience Section  */}
-            <section className="bg-white py-16" data-aos="fade-up" id="Experience">
-                <div className="container mx-auto px-6 md:px-0 max-w-4xl">
-                    <h2 className="text-2xl font-bold text-center mb-8">✨ My experiences</h2>
-                    <div className="grid md:grid-cols-2 gap-6">
+            {/* Experience Section */}
+            <section className="bg-gray-50 py-20" id="Experience" data-aos="fade-up">
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">
+                        🧠 ประสบการณ์ของฉัน
+                    </h2>
 
-                        {experience.map(exp => (
-                            <div className="bg-gray-50 p-6 rounded-xl shadow hover:shadow-md transition">
-                                <h3 className="text-xl font-semibold mb-2">{exp.title}</h3>
-                                <p className="text-gray-700 mb-3">
-                                    {exp.description}
-                                </p>
-                                <p className="text-gray-700 mb-3">
-                                    ช่วงเวลา :  {exp.date}
-                                </p>
-                                <Link href={`/Experience/${exp.slug}`} key={exp.slug} className="text-blue-600 hover:underline font-medium">
-                                    ดูรายละเอียดเพิ่มเติม →
-                                </Link>
-                            </div>
+                    <ol className="relative border-s-4 border-blue-200 ml-3">
+                        {[...experience]
+                            .sort((a, b) => a.date.localeCompare(b.date))
+                            .reverse()
+                            .map((exp, index) => (
+                                <li
+                                    key={exp.slug}
+                                    className="mb-12 ms-6 relative bg-white p-6 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-300"
+                                    data-aos="fade-up"
+                                    data-aos-delay={index * 100}
+                                >
+                                    {/* Bullet */}
+                                    <span className="absolute -left-5 top-6 w-4 h-4 bg-blue-600 rounded-full border-2 border-white shadow-md" />
 
-                        ))}
+                                    {/* Date */}
+                                    <time className="block mb-2 text-sm text-gray-500">
+                                        {exp.date.includes('-')
+                                            ? new Date(exp.date + '-01').toLocaleDateString('th-TH', {
+                                                year: 'numeric',
+                                                month: 'long',
+                                            })
+                                            : exp.date}
+                                    </time>
 
-                    </div>
+                                    {/* Title */}
+                                    <h3 className="text-xl font-semibold text-gray-900">{exp.title}</h3>
+
+                                    {/* Description */}
+                                    <p className="text-gray-700 mt-2">{exp.description}</p>
+
+                                    {/* Read More */}
+                                    <div className="mt-4">
+                                        <a
+                                            href={`/Exp/${exp.slug}`}
+                                            className="text-blue-600 text-sm font-medium hover:underline inline-flex items-center"
+                                        >
+                                            อ่านเพิ่มเติม →
+                                        </a>
+                                    </div>
+                                </li>
+                            ))}
+                    </ol>
                 </div>
             </section>
+
 
             {/* Timeline / Story   */}
             <section className="bg-gray-100 py-16" data-aos="fade-up" id="timeline">
@@ -360,8 +388,22 @@ const page = () => {
                                 <p className="text-sm text-gray-600">มิถุนายน 2567</p>
                             </div>
                         </a>
+                        {/* Cert 1 */}
+                        <a href="https://certificate-link.com" target="_blank"
+                            className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                            <Image
+                                src={Cloud_certificate}
+                                alt="Accenture Certificate"
+                                className="w-full object-cover"
+                                priority
+                            />
+                            <div className="p-4 bg-white">
+                                <h3 className="font-semibold text-lg">Accenture Certificated</h3>
+                                <p className="text-sm text-gray-600">มิถุนายน 2567</p>
+                            </div>
+                        </a>
 
-                       
+
 
                     </div>
                 </div>

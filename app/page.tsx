@@ -1,9 +1,44 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
+import Navigation from "@/Components/navigation";
+import HeroSection from "@/Components/hero-section";
+import AboutSection from "@/Components/about-section";
+import PortfolioSection from "@/Components/portfolio-section";
+import SkillsSection from "@/Components/skills-section";
+import CertificatesSection from "@/Components/certificates-section";
+import ContactSection from "@/Components/contact-section";
+import Footer from "@/Components/footer";
 
 
-export default async function Home() {
-  await new Promise((resolve) => setInterval(resolve,1000));
+export default function Home() {
+  // await new Promise((resolve) => setInterval(resolve, 1000));
+
+  useEffect(() => {
+    // Animate on scroll functionality
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with animation classes
+    document.querySelectorAll('.animate-on-scroll, .animate-fade-in-up, .animate-fade-in, .animate-slide-in-left, .animate-slide-in-right').forEach(el => {
+      observer.observe(el);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <>
@@ -58,6 +93,17 @@ export default async function Home() {
             </div>
           </div>
         </section>
+      </div>
+
+      <div className="min-h-screen bg-white">
+        <Navigation />
+        <HeroSection />
+        <AboutSection />
+        <PortfolioSection />
+        <SkillsSection />
+        <CertificatesSection />
+        <ContactSection />
+        <Footer />
       </div>
     </>
   );
