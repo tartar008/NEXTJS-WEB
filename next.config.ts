@@ -1,12 +1,9 @@
-import path from "path";
-import type { NextConfig } from "next";
+const path = require('path');
 
-const nextConfig: NextConfig = {
+module.exports = {
   reactStrictMode: true,
-  webpack: (config) => {
+  webpack: (config: { resolve: { alias: { [x: string]: any; }; }; }) => {
     config.resolve.alias['@'] = path.resolve(__dirname);
     return config;
   },
 };
-
-export default nextConfig;
