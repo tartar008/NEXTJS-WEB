@@ -1,7 +1,5 @@
-// components/sections/BannerSection.tsx
 import Image from "next/image";
 import React from "react";
-import Image_Profile from '../../app/(assets)/images/profile.jpg';
 
 const BannerSection = () => (
     <section id="banner" className="py-16 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
@@ -20,9 +18,11 @@ const BannerSection = () => (
 
             <div className="md:w-5/12 w-full flex justify-center">
                 <Image
-                    src={Image_Profile}
+                    src="/assets/Image_profile.jpg"  // ใช้ path แบบ string ชี้ public folder
                     alt="Profile"
-                    className="w-80 h-80 rounded-full object-cover shadow-xl border-4 border-white transition-transform duration-500 hover:scale-105"
+                    width={320}   // กำหนดขนาดชัดเจน
+                    height={300}
+                    className="rounded-full object-cover shadow-xl border-4 border-white transition-transform duration-500 hover:scale-105"
                     priority
                 />
             </div>
