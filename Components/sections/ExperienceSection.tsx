@@ -13,17 +13,30 @@ export default function ExperienceSection() {
                         .sort((a, b) => a.date.localeCompare(b.date))
                         .reverse()
                         .map((exp: ExperienceItem, index) => {
+                            // ✅ แก้ตรงนี้: รองรับทั้ง "ปี 2023" และ "2023-12"
                             let formattedDate = exp.date;
 
-                            if (exp.date.includes("-")) {
-                                // ลอง parse ด้วย parseISO ก่อน
-                                const dateObj = parseISO(exp.date + "-01");
-                                if (isValid(dateObj)) {
-                                    formattedDate = format(dateObj, "MMMM yyyy", { locale: th });
-                                } else {
-                                    // ถ้าไม่ valid ก็ใช้ข้อความเดิม
-                                    formattedDate = exp.date;
+                            try {
+                                let parsedDateStr = "";
+
+                                if (exp.date.includes("-")) {
+                                    // กรณี "2023-12"
+                                    parsedDateStr = exp.date + "-01";
+                                } else if (/ปี\s?(\d{4})/.test(exp.date)) {
+                                    // กรณี "ปี 2023"
+                                    const match = exp.date.match(/ปี\s?(\d{4})/);
+                                    if (match) {
+                                        parsedDateStr = `${match[1]}-01-01`;
+                                    }
                                 }
+
+                                const dateObj = parsedDateStr ? parseISO(parsedDateStr) : null;
+
+                                if (dateObj && isValid(dateObj)) {
+                                    formattedDate = format(dateObj, "MMMM yyyy", { locale: th });
+                                }
+                            } catch (err) {
+                                console.warn("Invalid date:", exp.date);
                             }
 
                             return (
