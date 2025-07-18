@@ -3,14 +3,14 @@
 import React, { useEffect } from "react";
 import CertificateCard from "../ui/CertificateCard";
 
-import Image1 from '@/app/(assets)/Certificate/Accenture.jpg';
-import Image2 from '@/app/(assets)/Certificate/Chatbot.jpg';
-import Image3 from '@/app/(assets)/Certificate/Innovative_Entrepreneurship.jpg';
-import Image4 from '@/app/(assets)/Certificate/PrepareForCooperativeEducation.jpg';
-import Image5 from '@/app/(assets)/Certificate/Microsoft_1.jpg';
-import Image6 from '@/app/(assets)/Certificate/Microsoft_2.jpg';
-import Image7 from '@/app/(assets)/Certificate/Microsoft_3.jpg';
-import Image8 from '@/app/(assets)/Certificate/Cloud_Certificate_cognitiveclass.jpg';
+import Image1 from '../../app/(assets)/Certificate/Accenture_Certified.jpg';
+import Image2 from '../../app/(assets)/Certificate/Chatbot.jpg';
+import Image3 from '../../app/(assets)/Certificate/Innovative_Entrepreneurship.jpg';
+import Image4 from '../../app/(assets)/Certificate/PrepareForCooperativeEducation.jpg';
+import Image5 from '../../app/(assets)/Certificate/Microsoft_1.jpg';
+import Image6 from '../../app/(assets)/Certificate/Microsoft_2.jpg';
+import Image7 from '../../app/(assets)/Certificate/Microsoft_3.jpg';
+import Image8 from '../../app/(assets)/Certificate/Cloud_Certificate_cognitiveclass.jpg';
 
 import AOS from "aos";
 import "aos/dist/aos.css";

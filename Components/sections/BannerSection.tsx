@@ -1,7 +1,7 @@
 // components/sections/BannerSection.tsx
 import Image from "next/image";
 import React from "react";
-import Image_Profile from '@/app/(assets)/Image_profile.jpg';
+import Image_Profile from '../../app/(assets)/images/profile.jpg';
 
 const BannerSection = () => (
     <section id="banner" className="py-16 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">

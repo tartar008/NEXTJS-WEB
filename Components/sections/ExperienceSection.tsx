@@ -1,4 +1,4 @@
-import { experience, ExperienceItem } from "@/data/experience";
+import { experience, ExperienceItem } from "../../data/experience";
 import { format, parseISO, isValid } from "date-fns";
 import { th } from "date-fns/locale";
 
