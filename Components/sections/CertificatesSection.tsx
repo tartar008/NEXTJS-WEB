@@ -1,16 +1,23 @@
-import React from "react"
-import CertificateCard from "../ui/CertificateCard"
+"use client";
 
-import Image1 from '@/app/(assets)/Certificate/Accenture.jpg'
-import Image2 from '@/app/(assets)/Certificate/Chatbot.jpg'
-// import ภาพอื่นตามต้องการ...
+import React, { useEffect } from "react";
+import CertificateCard from "../ui/CertificateCard";
+
+import Image1 from '@/app/(assets)/Certificate/Accenture.jpg';
+import Image2 from '@/app/(assets)/Certificate/Chatbot.jpg';
+
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const CertificatesSection = () => {
+    useEffect(() => {
+        AOS.init({ once: true });
+    }, []);
+
     const certificates = [
         { image: Image1, title: "Accenture Certified", date: "มิถุนายน 2567", link: "#" },
         { image: Image2, title: "AI Chatbot", date: "พฤษภาคม 2567", link: "#" },
-        // ...อื่นๆ
-    ]
+    ];
 
     return (
         <section className="bg-white py-16" data-aos="fade-up" id="certificates">
@@ -23,7 +30,7 @@ const CertificatesSection = () => {
                 </div>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default CertificatesSection
+export default CertificatesSection;

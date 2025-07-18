@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import Script from 'next/script';
 import Head from 'next/head';
 import AosInit from '@/components/AosInit'; // ✅ เพิ่มการ import
-import Navbar from '@/components/Navigation' // ✅ components ตัวเล็ก
+import Navbar from '@/components/navigation';
 
 export const metadata: Metadata = {
   title: 'My App',
