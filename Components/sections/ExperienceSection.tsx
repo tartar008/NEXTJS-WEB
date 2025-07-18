@@ -35,7 +35,7 @@ export default function ExperienceSection() {
                                 if (dateObj && isValid(dateObj)) {
                                     formattedDate = format(dateObj, "MMMM yyyy", { locale: th });
                                 }
-                            } catch (err) {
+                            } catch {
                                 console.warn("Invalid date:", exp.date);
                             }
 

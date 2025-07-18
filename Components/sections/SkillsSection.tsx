@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+
 
 const skills = [
     {
@@ -72,10 +74,12 @@ export default function SkillsSection() {
                                         className="skill-badge flex items-center gap-2 px-3 py-2 bg-white rounded shadow text-sm"
                                     >
                                         {item.icon && (
-                                            <img
+                                            <Image
                                                 src={item.icon}
-                                                className={`icon w-5 h-5 ${item.extraClass || ""}`}
                                                 alt={item.name}
+                                                width={20}
+                                                height={20}
+                                                className={`icon ${item.extraClass || ""}`}
                                             />
                                         )}
                                         {item.name}

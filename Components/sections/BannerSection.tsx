@@ -8,7 +8,7 @@ const BannerSection = () => (
         <div className="container mx-auto flex flex-col md:flex-row items-center px-6 md:px-0">
             <div className="md:w-7/12 w-full mb-10 md:mb-0">
                 <h2 className="text-3xl font-bold border border-white p-2 mb-5 inline-block shadow-md">Welcome to my Portfolio</h2>
-                <h1 className="text-4xl font-extrabold mb-4 animate-typewriter">Hi! I'm Tar <span className="text-yellow-300">Web Developer</span></h1>
+                <h1 className="text-4xl font-extrabold mb-4 animate-typewriter">Hi! I&apos;m Tar <span className="text-yellow-300">Web Developer</span></h1>
                 <p className="text-lg leading-relaxed mb-6">
                     <span className="inline-block w-5 h-2 mr-6 bg-white align-middle rounded-full"></span>
                     ฉันเป็นคนที่รักการเรียนรู้และพัฒนาตนเอง โดยเฉพาะในด้านเทคโนโลยีและการพัฒนาโปรแกรม...
