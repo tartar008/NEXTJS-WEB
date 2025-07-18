@@ -2,8 +2,8 @@ import './globals.css';
 import { Metadata } from 'next';
 import Script from 'next/script';
 import Head from 'next/head';
-import AosInit from '../Components/AosInit'; // ✅ เพิ่มการ import
-import Navbar from '@/Components/Navbar';
+import AosInit from '@/components/AosInit'; // ✅ เพิ่มการ import
+import Navbar from '@/components/Navigation' // ✅ components ตัวเล็ก
 
 export const metadata: Metadata = {
   title: 'My App',
