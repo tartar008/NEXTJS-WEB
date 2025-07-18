@@ -1,4 +1,5 @@
 export type ExperienceItem = {
+  link?: any;
   slug: string;
   title: string;
   date: string;
