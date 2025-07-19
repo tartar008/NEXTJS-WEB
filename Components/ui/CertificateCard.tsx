@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 
 interface CertificateCardProps {
@@ -16,13 +15,12 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ image, title, date, l
             rel="noopener noreferrer"
             className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition bg-white"
         >
-            <Image
+            <img
                 src={image}
                 alt={title}
                 width={400} // กำหนดขนาดตามต้องการ
                 height={300}
                 className="object-cover w-full h-48"
-                priority
             />
             <div className="p-4">
                 <h3 className="font-semibold text-lg">{title}</h3>
