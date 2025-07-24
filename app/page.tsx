@@ -8,6 +8,7 @@ import CertificatesSection from "@/components/sections/CertificatesSection";
 import DownloadCVSection from "@/components/sections/DownloadCVSection";
 import ContactSection from "@/components/sections/ContactSection";
 
+
 export default function Home() {
   return (
     <>

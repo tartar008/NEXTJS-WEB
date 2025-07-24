@@ -1,0 +1,147 @@
+/* ใส่ใน global.css หรือ styles/globals.css */
+.prose {
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.prose h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #3b82f6;
+    /* underline สีน้ำเงิน */
+    padding-bottom: 0.3rem;
+}
+
+.prose h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: #2563eb;
+}
+
+.prose p {
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+}
+
+.prose ul {
+    padding-left: 1.25rem;
+    margin-bottom: 1rem;
+    list-style-type: disc;
+}
+
+.prose a {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.prose a:hover {
+    color: #1e40af;
+}
+
+.prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.prose table th,
+.prose table td {
+    border: 1px solid #d1d5db;
+    /* สีเทาอ่อน */
+    padding: 0.75em 1em;
+    text-align: left;
+    vertical-align: top;
+}
+
+.prose table th {
+    background-color: #3b82f6;
+    /* สีฟ้า */
+    color: white;
+    font-weight: 600;
+}
+
+.prose table tr:nth-child(even) {
+    background-color: #f9fafb;
+    /* สีพื้นแถวคู่ */
+}
+
+@media (max-width: 640px) {
+
+    .prose table,
+    .prose thead,
+    .prose tbody,
+    .prose th,
+    .prose td,
+    .prose tr {
+        display: block;
+    }
+
+    .prose thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .prose tr {
+        margin-bottom: 1.5em;
+    }
+
+    .prose td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        white-space: normal;
+    }
+
+    .prose td:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 45%;
+        padding-left: 1em;
+        font-weight: 600;
+        white-space: nowrap;
+        content: attr(data-label);
+    }
+}
+
+/* ------------------ */
+
+.my-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.my-table th,
+.my-table td {
+    border: 1px solid #3b82f6;
+    /* สีน้ำเงิน */
+    padding: 0.5rem 1rem;
+}
+
+.my-table thead {
+    background-color: #2563eb;
+    /* น้ำเงินเข้ม */
+    color: white;
+}
+
+/* เพิ่ม style สำหรับ text และหัวข้อถ้าต้องการ */
+.prose h1 {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.prose h2 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
