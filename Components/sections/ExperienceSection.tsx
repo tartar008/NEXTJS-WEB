@@ -1,12 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { experience, ExperienceItem } from "../../data/experience";
+import {
+    experience,
+    type ExperienceItem,
+    type ExperienceType,
+} from "../../data/experience";
 import { format, parseISO, isValid } from "date-fns";
 import { th } from "date-fns/locale";
 
 function formatThaiMonthYearFlexible(dateStr: string) {
-    // รองรับ "2023-12" หรือ "ปี 2023" หรือข้อความอื่น ๆ
     try {
         let parsed = "";
         if (dateStr?.includes("-")) {
@@ -24,12 +27,14 @@ function formatThaiMonthYearFlexible(dateStr: string) {
     return dateStr || "";
 }
 
+type WithOptionalType = ExperienceItem & { type?: ExperienceType };
+
 export default function ExperienceSection() {
     // --- Tabs state ---
-    const [activeTab, setActiveTab] = useState<"work" | "activity">("work");
+    const [activeTab, setActiveTab] = useState<ExperienceType>("work");
 
     // --- Sort ล่าสุดอยู่บนสุด ---
-    const sorted = useMemo(
+    const sorted: WithOptionalType[] = useMemo(
         () =>
             [...experience]
                 .sort((a, b) => (a.date || "").localeCompare(b.date || ""))
@@ -38,8 +43,8 @@ export default function ExperienceSection() {
     );
 
     // --- Filter ตามแท็บ (ถ้าไม่มี type ให้เป็น activity) ---
-    const filteredExp = useMemo(
-        () => sorted.filter((e: ExperienceItem & { type?: "work" | "activity" }) => (e.type ?? "activity") === activeTab),
+    const filteredExp: WithOptionalType[] = useMemo(
+        () => sorted.filter((e) => (e.type ?? "activity") === activeTab),
         [sorted, activeTab]
     );
 
@@ -80,8 +85,9 @@ export default function ExperienceSection() {
 
                 {/* Timeline */}
                 <ol className="relative border-s-4 border-blue-200 ml-3">
-                    {filteredExp.map((exp, index) => {
+                    {filteredExp.map((exp: WithOptionalType, index: number) => {
                         const formattedDate = formatThaiMonthYearFlexible(exp.date);
+                        const effectiveType: ExperienceType = (exp.type ?? "activity") as ExperienceType;
 
                         return (
                             <li
@@ -95,20 +101,16 @@ export default function ExperienceSection() {
 
                                 {/* Date + Type Badge */}
                                 <div className="flex items-center gap-3 mb-2">
-                                    <time className="block text-sm text-gray-500">
-                                        {formattedDate}
-                                    </time>
+                                    <time className="block text-sm text-gray-500">{formattedDate}</time>
                                     <span
                                         className={[
                                             "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
-                                            ((exp as any).type ?? "activity") === "work"
+                                            effectiveType === "work"
                                                 ? "bg-blue-100 text-blue-700"
                                                 : "bg-amber-100 text-amber-700",
                                         ].join(" ")}
                                     >
-                                        {((exp as any).type ?? "activity") === "work"
-                                            ? "Work"
-                                            : "Activity"}
+                                        {effectiveType === "work" ? "Work" : "Activity"}
                                     </span>
                                 </div>
 
