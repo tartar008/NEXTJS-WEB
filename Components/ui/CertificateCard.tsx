@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // components/ui/CertificateCard.tsx
 
 import React from "react";
