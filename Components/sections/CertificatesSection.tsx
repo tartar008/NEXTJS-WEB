@@ -1,97 +1,17 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CertificateCard from "../ui/CertificateCard";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { groupedCertificates, Certificate } from "../../data/certificatesData";
 
 const CertificatesSection = () => {
+    const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
+
     useEffect(() => {
         AOS.init({ once: true });
     }, []);
-
-    const groupedCertificates = {
-        "Microsoft Certificates": [
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/Microsotf/Microsoft_1.jpg",
-                title: "Microsoft Certificate: HTML/CSS/JS",
-                date: "มิถุนายน 2567",
-                link: "https://certificate-link.com"
-            },
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/Microsotf/Microsoft_2.jpg",
-                title: "Microsoft Certificate: Azure Fundamentals",
-                date: "มิถุนายน 2567",
-                link: "https://certificate-link.com"
-            },
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/Microsotf/Microsoft_3.jpg",
-                title: "Microsoft Certificate: Power BI",
-                date: "มิถุนายน 2567",
-                link: "https://certificate-link.com"
-            }
-        ],
-        "Cybersecurity": [
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/PSU_Cybersecurity.png",
-                title: "Cybersecurity Workshop (PSU)",
-                date: "มิถุนายน 2567",
-                link: "https://certificate-link.com"
-            },
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/PSU_Cybersecurity_2.jpg",
-                title: "Cybersecurity Awareness (PSU)",
-                date: "มิถุนายน 2567",
-                link: "https://certificate-link.com"
-            }
-        ],
-        "AI & Cloud": [
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/Chatbot.jpg",
-                title: "AI Chatbot Workshop",
-                date: "พฤษภาคม 2567",
-                link: "https://certificate-link.com"
-            },
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/Certificate_HuggingFace_LLM_Course.webp",
-                title: "Hugging Face LLM Course",
-                date: "มิถุนายน 2567",
-                link: "https://certificate-link.com"
-            },
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/Cloud_Certificate_cognitiveclass.jpg",
-                title: "Cloud Computing - Cognitive Class",
-                date: "มิถุนายน 2567",
-                link: "https://certificate-link.com"
-            }
-        ],
-        "Other Certificates": [
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/Accenture_Certified.jpg",
-                title: "Accenture Certified",
-                date: "มิถุนายน 2567",
-                link: "https://certificate-link.com"
-            },
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/Innovative_Entrepreneurship.jpg",
-                title: "Innovative Entrepreneurship",
-                date: "มิถุนายน 2567",
-                link: "https://certificate-link.com"
-            },
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/PrepareForCooperativeEducation.jpg",
-                title: "Preparation for Cooperative Education",
-                date: "มิถุนายน 2567",
-                link: "https://certificate-link.com"
-            },
-            {
-                image: "/NEXTJS-WEB/assets/Certificate/Certificate_Internship.png",
-                title: "Internship Certificate",
-                date: "มิถุนายน 2567",
-                link: "https://certificate-link.com"
-            }
-        ]
-    };
 
     return (
         <section className="bg-white py-16" data-aos="fade-up" id="certificates">
@@ -104,12 +24,49 @@ const CertificatesSection = () => {
                         <h3 className="text-xl font-semibold text-gray-800 mb-5 border-b pb-1">{groupTitle}</h3>
                         <div className="grid md:grid-cols-3 gap-6">
                             {certs.map((cert, idx) => (
-                                <CertificateCard key={idx} {...cert} />
+                                <div
+                                    key={idx}
+                                    onClick={() => setSelectedCert(cert)}
+                                    className="cursor-pointer"
+                                >
+                                    <CertificateCard {...cert} />
+                                </div>
                             ))}
                         </div>
                     </div>
                 ))}
             </div>
+
+            {/* MODAL POPUP */}
+            {selectedCert && (
+                <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center">
+                    {/* background click close */}
+                    <div
+                        className="absolute inset-0"
+                        onClick={() => setSelectedCert(null)}
+                    ></div>
+
+                    {/* modal content */}
+                    <div className="relative z-10 max-w-3xl w-full bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img
+                            src={selectedCert.image}
+                            alt={selectedCert.title}
+                            className="w-full h-auto object-contain"
+                        />
+                        <div className="p-4 border-t text-center">
+                            <h3 className="text-lg font-semibold mb-1">{selectedCert.title}</h3>
+                            <p className="text-sm text-gray-600">{selectedCert.date}</p>
+                        </div>
+                        <button
+                            onClick={() => setSelectedCert(null)}
+                            className="absolute top-2 right-2 text-gray-700 hover:text-black text-2xl font-bold"
+                        >
+                            ×
+                        </button>
+                    </div>
+                </div>
+            )}
+
         </section>
     );
 };

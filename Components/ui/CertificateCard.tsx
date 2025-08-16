@@ -1,24 +1,20 @@
+// components/ui/CertificateCard.tsx
+
 import React from "react";
 
 interface CertificateCardProps {
     image: string;
     title: string;
     date: string;
-    link: string;
 }
 
-const CertificateCard: React.FC<CertificateCardProps> = ({ image, title, date, link }) => {
+const CertificateCard: React.FC<CertificateCardProps> = ({ image, title, date }) => {
     return (
-        <a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition bg-white"
-        >
+        <div className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition bg-white">
             <img
                 src={image}
                 alt={title}
-                width={400} // กำหนดขนาดตามต้องการ
+                width={400}
                 height={300}
                 className="object-cover w-full h-48"
             />
@@ -26,7 +22,7 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ image, title, date, l
                 <h3 className="font-semibold text-lg">{title}</h3>
                 <p className="text-sm text-gray-600">{date}</p>
             </div>
-        </a>
+        </div>
     );
 };
 

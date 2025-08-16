@@ -1,4 +1,3 @@
-// components/ui/ProjectCard.tsx
 import React from "react"
 import Link from "next/link"
 
@@ -7,7 +6,7 @@ type Props = {
     description: string
     slug: string
     year?: string
-    image?: string // ✅ เพิ่ม image props
+    image?: string
 }
 
 const ProjectCard = ({ title, description, slug, year, image }: Props) => (
