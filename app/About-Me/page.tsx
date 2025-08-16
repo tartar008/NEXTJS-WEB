@@ -1,4 +1,6 @@
-import React from 'react'
+"use client";
+
+import React, { useMemo, useState } from 'react'
 import './About-Me.css';
 import Image from "next/image";
 import Link from 'next/link';
@@ -15,14 +17,32 @@ import Image_certificate_Microsoft_2 from '../(assets)/Certificate/Microsoft Lea
 import Image_certificate_Microsoft_3 from '../(assets)/Certificate/Microsoft Learn [3].jpg'
 import Cloud_certificate from '../(assets)/Certificate/Cloud_Certificate_cognitiveclass.jpg'
 
-
-
-
+const formatThaiMonthYear = (dateStr: string | string[]) => {
+    if (!dateStr) return "";
+    if (dateStr.includes("-")) {
+        const d = new Date(dateStr + "-01");
+        const yearBE = d.getFullYear() + 543;
+        const monthName = d.toLocaleDateString("th-TH", { month: "long" });
+        return `${monthName} ${yearBE}`;
+    }
+    return dateStr;
+};
 
 const page = () => {
+    // --- Experience Tabs state ---
+    const [activeTab, setActiveTab] = useState("work"); // 'work' | 'activity'
+    const sortedExp = useMemo(
+        () => [...experience].sort((a, b) => a.date.localeCompare(b.date)).reverse(),
+        []
+    );
+    // ถ้าไม่มี type ให้ถือเป็น 'activity' ไว้ก่อน
+    const filteredExp = useMemo(
+        () => sortedExp.filter((e) => (e.type ?? 'activity') === activeTab),
+        [sortedExp, activeTab]
+    );
+
     return (
         <>
-
             {/* Header  */}
             <header className="text-center py-10">
                 <h2 className="text-4xl font-bold mb-2">👩‍💻 About Me</h2>
@@ -32,7 +52,6 @@ const page = () => {
             {/* Banner Section */}
             <section id="banner" className="py-16 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
                 <div className="container mx-auto flex flex-col md:flex-row items-center px-6 md:px-0">
-
                     {/* Text */}
                     <div className="md:w-7/12 w-full mb-10 md:mb-0">
                         <div className="mb-6">
@@ -58,9 +77,7 @@ const page = () => {
                             className="w-80 h-80 rounded-full object-cover shadow-xl border-4 border-white transition-transform duration-500 hover:scale-105"
                             priority
                         />
-
                     </div>
-
                 </div>
             </section>
 
@@ -91,7 +108,6 @@ const page = () => {
                             <div className="flex flex-wrap gap-3">
                                 <span className="skill-badge"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" className="icon" />Node.js</span>
                                 <span className="skill-badge">Express</span>
-
                             </div>
                         </div>
 
@@ -139,13 +155,11 @@ const page = () => {
                 </div>
             </section>
 
-
             {/* Projects Section  */}
             <section className="bg-white py-16" data-aos="fade-up" id="projects">
                 <div className="container mx-auto px-6 md:px-0 max-w-4xl">
                     <h2 className="text-2xl font-bold text-center mb-8">✨ My Projects</h2>
                     <div className="grid md:grid-cols-2 gap-6">
-
                         {projects.map(project => (
                             <div key={project.slug} className="bg-gray-50 p-6 rounded-xl shadow hover:shadow-md transition">
                                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
@@ -157,65 +171,103 @@ const page = () => {
                                     ดูโปรเจกต์ →
                                 </Link>
                             </div>
-
                         ))}
-
                     </div>
                 </div>
             </section>
 
-            {/* Experience Section */}
+            {/* Experience Section — with Tabs */}
             <section className="bg-gray-50 py-20" id="Experience" data-aos="fade-up">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">
+                    <h2 className="text-4xl font-bold text-center text-gray-800 mb-6">
                         🧠 ประสบการณ์ของฉัน
                     </h2>
 
-                    <ol className="relative border-s-4 border-blue-200 ml-3">
-                        {[...experience]
-                            .sort((a, b) => a.date.localeCompare(b.date))
-                            .reverse()
-                            .map((exp, index) => (
-                                <li
-                                    key={exp.slug}
-                                    className="mb-12 ms-6 relative bg-white p-6 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-300"
-                                    data-aos="fade-up"
-                                    data-aos-delay={index * 100}
-                                >
-                                    {/* Bullet */}
-                                    <span className="absolute -left-5 top-6 w-4 h-4 bg-blue-600 rounded-full border-2 border-white shadow-md" />
+                    {/* Tabs */}
+                    <div className="flex items-center justify-center gap-3 mb-10">
+                        <button
+                            onClick={() => setActiveTab("work")}
+                            className={[
+                                "px-4 py-2 rounded-full border text-sm font-medium transition",
+                                activeTab === "work"
+                                    ? "bg-blue-600 text-white border-blue-600 shadow"
+                                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50",
+                            ].join(" ")}
+                            aria-pressed={activeTab === "work"}
+                        >
+                            <span className="mr-1">💼</span> ประสบการณ์ทำงานจริง
+                        </button>
+                        <button
+                            onClick={() => setActiveTab("activity")}
+                            className={[
+                                "px-4 py-2 rounded-full border text-sm font-medium transition",
+                                activeTab === "activity"
+                                    ? "bg-blue-600 text-white border-blue-600 shadow"
+                                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50",
+                            ].join(" ")}
+                            aria-pressed={activeTab === "activity"}
+                        >
+                            <span className="mr-1">🏅</span> กิจกรรม/ผลงาน
+                        </button>
+                    </div>
 
-                                    {/* Date */}
-                                    <time className="block mb-2 text-sm text-gray-500">
-                                        {exp.date.includes('-')
-                                            ? new Date(exp.date + '-01').toLocaleDateString('th-TH', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                            })
+                    {/* Timeline */}
+                    <ol className="relative border-s-4 border-blue-200 ml-3">
+                        {filteredExp.map((exp, index) => (
+                            <li
+                                key={exp.slug}
+                                className="mb-12 ms-6 relative bg-white p-6 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-300"
+                                data-aos="fade-up"
+                                data-aos-delay={index * 100}
+                            >
+                                {/* Bullet */}
+                                <span className="absolute -left-5 top-6 w-4 h-4 bg-blue-600 rounded-full border-2 border-white shadow-md" />
+
+                                {/* Date + Type Badge */}
+                                <div className="flex items-center gap-3 mb-2">
+                                    <time className="block text-sm text-gray-500">
+                                        {exp.date?.includes('-')
+                                            ? formatThaiMonthYear(exp.date)
                                             : exp.date}
                                     </time>
+                                    <span
+                                        className={[
+                                            "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
+                                            (exp.type ?? 'activity') === "work"
+                                                ? "bg-blue-100 text-blue-700"
+                                                : "bg-amber-100 text-amber-700",
+                                        ].join(" ")}
+                                    >
+                                        {(exp.type ?? 'activity') === "work" ? "Work" : "Activity"}
+                                    </span>
+                                </div>
 
-                                    {/* Title */}
-                                    <h3 className="text-xl font-semibold text-gray-900">{exp.title}</h3>
+                                {/* Title */}
+                                <h3 className="text-xl font-semibold text-gray-900">{exp.title}</h3>
 
-                                    {/* Description */}
-                                    <p className="text-gray-700 mt-2">{exp.description}</p>
+                                {/* Description */}
+                                <p className="text-gray-700 mt-2">{exp.description}</p>
 
-                                    {/* Read More */}
-                                    <div className="mt-4">
+                                {/* Read More */}
+                                <div className="mt-4">
+                                    {exp.content && exp.content.trim() !== "" ? (
                                         <a
                                             href={`/Exp/${exp.slug}`}
                                             className="text-blue-600 text-sm font-medium hover:underline inline-flex items-center"
                                         >
                                             อ่านเพิ่มเติม →
                                         </a>
-                                    </div>
-                                </li>
-                            ))}
+                                    ) : (
+                                        <span className="text-gray-400 text-sm font-medium inline-flex items-center cursor-not-allowed">
+                                            ยังไม่มีข้อมูล →
+                                        </span>
+                                    )}
+                                </div>
+                            </li>
+                        ))}
                     </ol>
                 </div>
             </section>
-
 
             {/* Timeline / Story   */}
             <section className="bg-gray-100 py-16" data-aos="fade-up" id="timeline">
@@ -253,8 +305,7 @@ const page = () => {
                         </ol>
                     </div>
 
-
-                    {/* คอลัมน์ข้างๆ (ว่างไว้ หรือจะใส่อะไรเพิ่มก็ได้) */}
+                    {/* คอลัมน์ข้างๆ */}
                     <div className="w-full md:w-2/4">
                         <h2 className="text-2xl font-bold text-center mb-8">📖 My Journey</h2>
                         <ol className="relative border-l border-blue-300 ml-4">
@@ -282,13 +333,11 @@ const page = () => {
                 </div>
             </section>
 
-
             {/* Certificates */}
             <section className="bg-white py-16" data-aos="fade-up" id="certificates">
                 <div className="container mx-auto px-6 max-w-5xl">
                     <h2 className="text-3xl font-bold text-center mb-10">🎓 Certificates</h2>
                     <div className="grid md:grid-cols-3 gap-6">
-
                         {/* Cert 1 */}
                         <a href="https://certificate-link.com" target="_blank"
                             className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
@@ -304,12 +353,12 @@ const page = () => {
                             </div>
                         </a>
 
-                        {/* Cert 1 */}
+                        {/* Cert 2 */}
                         <a href="https://certificate-link.com" target="_blank"
                             className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
                             <Image
                                 src={Image_certificate_Chatbot}
-                                alt="Accenture Certificate"
+                                alt="Chatbot Certificate"
                                 className="w-full object-cover"
                                 priority
                             />
@@ -318,12 +367,12 @@ const page = () => {
                                 <p className="text-sm text-gray-600">มิถุนายน 2567</p>
                             </div>
                         </a>
-                        {/* Cert 1 */}
+
                         <a href="https://certificate-link.com" target="_blank"
                             className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
                             <Image
                                 src={Image_certificate_Innovative}
-                                alt="Accenture Certificate"
+                                alt="Innovative Entrepreneurship Certificate"
                                 className="w-full object-cover"
                                 priority
                             />
@@ -332,12 +381,12 @@ const page = () => {
                                 <p className="text-sm text-gray-600">มิถุนายน 2567</p>
                             </div>
                         </a>
-                        {/* Cert 1 */}
+
                         <a href="https://certificate-link.com" target="_blank"
                             className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
                             <Image
                                 src={Image_certificate_CooperativeEducation}
-                                alt="Accenture Certificate"
+                                alt="Cooperative Education Certificate"
                                 className="w-full object-cover"
                                 priority
                             />
@@ -346,12 +395,12 @@ const page = () => {
                                 <p className="text-sm text-gray-600">มิถุนายน 2567</p>
                             </div>
                         </a>
-                        {/* Cert 1 */}
+
                         <a href="https://certificate-link.com" target="_blank"
                             className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
                             <Image
                                 src={Image_certificate_Microsoft_1}
-                                alt="Accenture Certificate"
+                                alt="Microsoft Learn 1"
                                 className="w-full object-cover"
                                 priority
                             />
@@ -360,12 +409,12 @@ const page = () => {
                                 <p className="text-sm text-gray-600">มิถุนายน 2567</p>
                             </div>
                         </a>
-                        {/* Cert 1 */}
+
                         <a href="https://certificate-link.com" target="_blank"
                             className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
                             <Image
                                 src={Image_certificate_Microsoft_2}
-                                alt="Accenture Certificate"
+                                alt="Microsoft Learn 2"
                                 className="w-full object-cover"
                                 priority
                             />
@@ -374,12 +423,12 @@ const page = () => {
                                 <p className="text-sm text-gray-600">มิถุนายน 2567</p>
                             </div>
                         </a>
-                        {/* Cert 1 */}
+
                         <a href="https://certificate-link.com" target="_blank"
                             className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
                             <Image
                                 src={Image_certificate_Microsoft_3}
-                                alt="Accenture Certificate"
+                                alt="Microsoft Learn 3"
                                 className="w-full object-cover"
                                 priority
                             />
@@ -388,12 +437,12 @@ const page = () => {
                                 <p className="text-sm text-gray-600">มิถุนายน 2567</p>
                             </div>
                         </a>
-                        {/* Cert 1 */}
+
                         <a href="https://certificate-link.com" target="_blank"
                             className="block rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
                             <Image
                                 src={Cloud_certificate}
-                                alt="Accenture Certificate"
+                                alt="Cloud Certificate"
                                 className="w-full object-cover"
                                 priority
                             />
@@ -402,9 +451,6 @@ const page = () => {
                                 <p className="text-sm text-gray-600">มิถุนายน 2567</p>
                             </div>
                         </a>
-
-
-
                     </div>
                 </div>
             </section>
@@ -416,16 +462,15 @@ const page = () => {
                     <p className="text-gray-700 mb-6">ดูประวัติการศึกษา ประสบการณ์ และทักษะในไฟล์เดียว</p>
                     <a href="https://yourdomain.com/files/My-CV.pdf" download
                         className="inline-flex items-center px-6 py-2 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition">
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth="2"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round"
+                            <path strokeLinecap="round" strokeLinejoin="round"
                                 d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M7 10l5 5 5-5M12 15V3"></path>
                         </svg>
                         Download CV
                     </a>
                 </div>
             </section>
-
 
             {/* Contact Section  */}
             <section id="contact" className="py-16 bg-white">
