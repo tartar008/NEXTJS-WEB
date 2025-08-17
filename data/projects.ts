@@ -67,7 +67,7 @@ export const projects: Project[] = [
 
 export const featuredProject = {
   slug: "project-checkname-system",
-  title: "🔥 ระบบเช็คชื่อนักเรียนออนไลน์ (My Best Project)",
+  title: "🔥 ระบบบริหารจัดการนักเรียนในหอพักของโครงการ วมว. (My Best Project)",
   year: "2025",
   image: "/NEXTJS-WEB/assets/Project/VWVProjectfinal.png",
   description:

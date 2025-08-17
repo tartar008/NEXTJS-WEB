@@ -1,8 +1,8 @@
 import './globals.css';
 import { Metadata } from 'next';
 import Script from 'next/script';
-import AosInit from '@/components/AosInit';
-import Navbar from '@/components/navigation';
+import AosInit from '@/Components/AosInit';
+import Navbar from '@/Components/navigation';
 
 export const metadata: Metadata = {
   title: 'My App',
