@@ -1,66 +1,130 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import ProjectCard from "../ui/ProjectCard"
-import { projects, featuredProject } from "../../data/projects"
-
-type Project = {
-    title: string
-    description: string
-    slug: string
-    year?: string
-    image?: string
-}
+import React, { useState } from "react";
+import ProjectCard from "../ui/ProjectCard";
+import { projects, featuredProject } from "../../data/projects";
+import type { Project } from "../../data/projects";
 
 const ProjectsSection = () => {
-    const [page, setPage] = useState(0)
-    const itemsPerPage = 3
-    const totalPages = Math.ceil(projects.length / itemsPerPage)
+    const [page, setPage] = useState(0);
+    const itemsPerPage = 3;
+    const totalPages = Math.ceil(projects.length / itemsPerPage);
 
-    const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-    const [showFeaturedModal, setShowFeaturedModal] = useState(false)
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [showFeaturedModal, setShowFeaturedModal] = useState(false);
 
     const handlePrev = () => {
-        if (page > 0) setPage(page - 1)
-    }
+        if (page > 0) setPage(page - 1);
+    };
 
     const handleNext = () => {
-        if (page < totalPages - 1) setPage(page + 1)
-    }
+        if (page < totalPages - 1) setPage(page + 1);
+    };
 
     const displayedProjects = projects.slice(
         page * itemsPerPage,
         (page + 1) * itemsPerPage
-    )
+    );
 
     return (
         <section className="py-14 px-4 bg-gray-50" aria-labelledby="projects-heading">
             <div className="max-w-6xl mx-auto">
-
                 {/* 🌟 FEATURED PROJECT */}
                 <div className="mb-20">
                     <h2 className="text-4xl font-bold text-center text-indigo-700 mb-8">
                         🌟 โปรเจกต์ที่ภูมิใจที่สุด
                     </h2>
+
                     <div
                         onClick={() => setShowFeaturedModal(true)}
-                        className="bg-gradient-to-br from-indigo-100 to-white rounded-xl shadow-xl p-6 lg:flex lg:items-center gap-8 hover:shadow-2xl transition-all duration-300 cursor-pointer"
+                        className="relative bg-gradient-to-br from-indigo-100 to-white rounded-xl shadow-xl p-6 lg:flex lg:items-center gap-8 hover:shadow-2xl transition-all duration-300 cursor-pointer"
                     >
+                        {/* Badge & Progress สำหรับ Featured */}
+                        {featuredProject.status === "ongoing" && (
+                            <span className="absolute top-3 left-3 z-10 inline-flex items-center gap-1 rounded-md bg-amber-100 px-2 py-1 text-xs font-medium text-amber-800 shadow">
+                                🚧 กำลังดำเนินการ
+                            </span>
+                        )}
+
                         <img
                             src={featuredProject.image}
                             alt={featuredProject.title}
                             className="rounded-lg w-full lg:w-1/2 object-cover"
                         />
                         <div className="mt-6 lg:mt-0 lg:w-1/2">
-                            <h3 className="text-2xl font-bold text-gray-800 mb-2">{featuredProject.title}</h3>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                                {featuredProject.title}
+                            </h3>
                             <p className="text-sm text-gray-500 mb-4">{featuredProject.year}</p>
-                            <p className="text-gray-700 text-base leading-relaxed line-clamp-4">
+                            <div
+                                className="rounded-lg border bg-gray-50 p-4 max-h-[40vh] md:max-h-[55vh] overflow-y-auto whitespace-pre-wrap break-words overscroll-contain"
+                                role="region"
+                                aria-label="รายละเอียดโปรเจกต์ (เลื่อนเพื่ออ่านต่อ)"
+                                tabIndex={0}
+                            >
                                 {featuredProject.description}
-                            </p>
-                            <p className="mt-2 text-sm text-indigo-600 font-medium">
+                            </div>
+
+                            <div className="mt-3 flex flex-wrap gap-2">
+                                {featuredProject.technologies.map((t) => (
+                                    <span
+                                        key={t}
+                                        className="rounded-full bg-indigo-50 px-3 py-1 text-xs text-indigo-700"
+                                    >
+                                        {t}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <div className="mt-2 flex flex-wrap items-center gap-2">
+                                {featuredProject.category && (
+                                    <span className="rounded-md bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700">
+                                        {featuredProject.category === "program" ? "โปรเจคโครงการ" :
+                                            featuredProject.category === "client" ? "โปรเจครับจากบริษัท" :
+                                                featuredProject.category === "course" ? "โปรเจควิชา" :
+                                                    featuredProject.category === "training" ? "โปรเจคฝึก" :
+                                                        featuredProject.category === "thesis" ? "โปรเจคจบ" :
+                                                            featuredProject.category === "scholarship" ? "โปรเจคงานทุน" :
+                                                                "โปรเจคส่วนตัว"}
+                                    </span>
+                                )}
+                                {featuredProject.client && (
+                                    <span className="text-xs text-gray-600">
+                                        • ลูกค้า: <b>{featuredProject.client}</b>
+                                    </span>
+                                )}
+                                {featuredProject.isRealProject && (
+                                    <span className="text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">
+                                        ใช้งานจริง
+                                    </span>
+                                )}
+                            </div>
+                            {/* ⬆⬆⬆ จบส่วนที่เพิ่ม ⬆⬆⬆ */}
+
+                            <p className="mt-3 text-sm text-indigo-600 font-medium">
                                 คลิกเพื่อดูรายละเอียดเพิ่มเติม →
                             </p>
+
+                            {/* Progress bar */}
+                            {typeof featuredProject.progress === "number" && (
+                                <div className="mt-4">
+                                    <div className="h-1 w-full bg-gray-200/80 rounded">
+                                        <div
+                                            className="h-1 bg-amber-500 rounded"
+                                            style={{
+                                                width: `${Math.max(
+                                                    0,
+                                                    Math.min(100, featuredProject.progress)
+                                                )}%`,
+                                            }}
+                                        />
+                                    </div>
+                                    <p className="mt-1 text-xs text-gray-500">
+                                        ความคืบหน้า {featuredProject.progress}%
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -82,6 +146,12 @@ const ProjectsSection = () => {
                                 slug={project.slug}
                                 year={project.year}
                                 image={project.image}
+                                technologies={project.technologies}
+                                status={project.status}
+                                progress={project.progress}
+                                category={project.category}          // ✅ ส่งเพิ่ม
+                                client={project.client}              // ✅ ส่งเพิ่ม
+                                isRealProject={project.isRealProject}
                             />
                         </div>
                     ))}
@@ -101,6 +171,14 @@ const ProjectsSection = () => {
                             <div className="p-6 space-y-4">
                                 <h3 className="text-3xl font-bold">{featuredProject.title}</h3>
                                 <p className="text-sm text-gray-500">{featuredProject.year}</p>
+
+                                <div className="flex flex-wrap gap-2">
+                                    {featuredProject.technologies.map((t) => (
+                                        <span key={t} className="rounded-full bg-indigo-50 px-3 py-1 text-xs text-indigo-700">
+                                            {t}
+                                        </span>
+                                    ))}
+                                </div>
 
                                 <div className="text-gray-700 space-y-4 text-base leading-relaxed">
                                     <p>ระบบดูแลนักเรียนในหอพักที่ออกแบบมาเพื่อให้:</p>
@@ -134,6 +212,23 @@ const ProjectsSection = () => {
                                         <li>✅ เพิ่ม/ลบ/แก้ไขนักเรียนได้</li>
                                         <li>✅ ระบบแสดงกฎล่าสุดแบบอัปเดตอัตโนมัติ</li>
                                     </ul>
+
+                                    {/* Progress */}
+                                    {typeof featuredProject.progress === "number" && (
+                                        <div className="pt-2">
+                                            <div className="h-1 w-full bg-gray-200/80 rounded">
+                                                <div
+                                                    className="h-1 bg-amber-500 rounded"
+                                                    style={{
+                                                        width: `${Math.max(0, Math.min(100, featuredProject.progress))}%`,
+                                                    }}
+                                                />
+                                            </div>
+                                            <p className="mt-1 text-xs text-gray-500">
+                                                ความคืบหน้า {featuredProject.progress}%
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                             <button
@@ -162,7 +257,40 @@ const ProjectsSection = () => {
                             <div className="p-6">
                                 <h3 className="text-2xl font-bold mb-2">{selectedProject.title}</h3>
                                 <p className="text-sm text-gray-500 mb-4">{selectedProject.year}</p>
-                                <p className="text-gray-700 leading-relaxed">{selectedProject.description}</p>
+
+                                <div className="mb-4 flex flex-wrap gap-2">
+                                    {selectedProject.technologies.map((t) => (
+                                        <span key={t} className="rounded-full bg-indigo-50 px-3 py-1 text-xs text-indigo-700">
+                                            {t}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                <div
+                                    className="rounded-lg border bg-gray-50 p-3 max-h-[32vh] md:max-h-[45vh] overflow-y-auto whitespace-pre-wrap break-words overscroll-contain text-sm md:text-base leading-relaxed"
+                                    role="region"
+                                    aria-label="รายละเอียดโปรเจกต์ (เลื่อนเพื่ออ่านต่อ)"
+                                    tabIndex={0}
+                                >
+                                    {selectedProject.description}
+                                </div>
+
+
+                                {selectedProject.status === "ongoing" && typeof selectedProject.progress === "number" && (
+                                    <div className="mt-6">
+                                        <div className="h-1 w-full bg-gray-200/80 rounded">
+                                            <div
+                                                className="h-1 bg-amber-500 rounded"
+                                                style={{
+                                                    width: `${Math.max(0, Math.min(100, selectedProject.progress))}%`,
+                                                }}
+                                            />
+                                        </div>
+                                        <p className="mt-1 text-xs text-gray-500">
+                                            ความคืบหน้า {selectedProject.progress}%
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                             <button
                                 onClick={() => setSelectedProject(null)}
@@ -199,7 +327,7 @@ const ProjectsSection = () => {
                 </div>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default ProjectsSection
+export default ProjectsSection;
